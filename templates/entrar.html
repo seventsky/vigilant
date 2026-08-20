@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>diario vermelho // entrar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="tela-entrar">
+    <pre class="logo-ascii">
+ ______     ______     _____     _____     __     ______
+/\  == \   /\  __ \   /\  __-.  /\  __-.  /\ \   /\  __ \
+\ \  __<   \ \ \/\ \  \ \ \/\ \ \ \ \/\ \ \ \ \  \ \ \/\ \
+ \ \_\ \_\  \ \_____\  \ \____-  \ \____-  \ \_\  \ \_____\
+  \/_/ /_/   \/_____/   \/____/   \/____/   \/_/   \/_____/
+        d i a r i o   v e r m e l h o  //  vigilant
+    </pre>
+
+    <form class="caixa-login" method="POST" action="{{ url_for('entrar') }}">
+        <p>&gt; digite seu apelido pra entrar</p>
+        <input type="text" name="nick" placeholder="apelido..." autofocus required maxlength="20">
+        <button type="submit">[ entrar ]</button>
+        <p class="rodape-aviso">sem senha, sem cadastro. vigilante.</p>
+    </form>
+</body>
+</html>
