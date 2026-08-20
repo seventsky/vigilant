@@ -7,7 +7,7 @@ from flask import Flask, redirect, render_template, request, session, url_for
 
 app = Flask(
     __name__,
-    template_folder="../templates",
+    template_folder="templates",
     static_folder="../css",
     static_url_path="/css",
 )
