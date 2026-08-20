@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>vigilant // feed</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topo">
+        <pre class="titulo-topo">== v i g i l a n t ==</pre>
+        <span class="usuario-logado">logado como <b>{{ nick }}</b> // <a href="{{ url_for('sair') }}">sair</a></span>
+    </header>
+
+    <div class="layout">
+        <aside class="painel-amigos">
+            <p class="titulo-painel">--- lista de contatos ---</p>
+            <ul class="lista-amigos">
+                {% for amigo in amigos %}
+                <li class="{{ 'voce' if amigo['nick'] == nick else '' }}">
+                    <span class="bolinha-status"></span>
+                    <b>{{ amigo['nick'] }}</b>
+                    <br>
+                    <small>{{ amigo['status'] }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <form class="form-status" method="POST" action="{{ url_for('mudar_status') }}">
+                <p class="titulo-painel">mudar status</p>
+                <input type="text" name="status" placeholder="digitando..." maxlength="60">
+                <button type="submit">[ ok ]</button>
+            </form>
+            <p class="dica-java">psst: rode o Server.java pra ter chat de verdade entre as janelas</p>
+        </aside>
+
+        <main class="feed">
+            <form class="form-post" method="POST" action="{{ url_for('feed') }}">
+                <p class="titulo-painel">novo post</p>
+                <input type="text" name="titulo" placeholder="titulo (opcional)" maxlength="80">
+                <textarea name="conteudo" rows="4" placeholder="o que ta rolando..." required></textarea>
+                <button type="submit">[ publicar ]</button>
+            </form>
+
+            {% if not posts %}
+            <p class="feed-vazio">ninguem postou nada ainda. seja o primeiro &lt;3</p>
+            {% endif %}
+
+            {% for post in posts %}
+            <article class="post">
+                {% if post['reblog_de'] %}
+                <p class="marca-reblog">&gt;&gt; reblog de um post antigo</p>
+                {% endif %}
+                {% if post['titulo'] %}
+                <h2>{{ post['titulo'] }}</h2>
+                {% endif %}
+                <p class="post-conteudo">{{ post['conteudo'] }}</p>
+                <footer class="post-rodape">
+                    <span>por <b>{{ post['autor'] }}</b> em {{ post['criado_em'] }}</span>
+                    <span class="post-acoes">
+                        <a href="{{ url_for('curtir', post_id=post['id']) }}">[ curtir ({{ post['curtidas'] }}) ]</a>
+                        <a href="{{ url_for('reblog', post_id=post['id']) }}">[ reblogar ]</a>
+                    </span>
+                </footer>
+            </article>
+            {% endfor %}
+        </main>
+    </div>
+</body>
+</html>
